@@ -6,12 +6,14 @@ class ListBooks extends Component {
         query: ''
     }
 
+    
     render() {
-
-        const { books } = this.props
-
+        const { books, shelf } = this.props
+        
+        let filteredBooks = books.filter((book) => book.shelf === shelf)
+        
         return(
-            <Book books={books} />
+            <Book books={filteredBooks} />
         )
     }
 }
