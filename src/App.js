@@ -41,6 +41,20 @@ class BooksApp extends React.Component {
     }))
   }
 
+  getNewShelf = (e, book) => {
+    const shelf = e.target.value
+    console.log(shelf, book.id)
+    BooksAPI.update(book, shelf)
+      .then((updatedBook) => {
+        console.log('updatedBooks', updatedBook)
+        BooksAPI.getAll().then((books) => {
+          this.setState({ books })
+        })
+      })
+      .catch((e) => console.log(e))
+  }
+  
+
   render() {
     console.log(this.state.books.map((book) => book.shelf), '<--- here are your books from the api')
     return (
@@ -73,7 +87,7 @@ class BooksApp extends React.Component {
               <h1>MyReads</h1>
             </div>
 
-            <ListShelves filterBooksByShelves={this.filterBooksByShelf} shelves={this.state.shelves} books={this.state.books} />
+            <ListShelves getNewShelf={this.getNewShelf} shelves={this.state.shelves} books={this.state.books} />
 
             <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>

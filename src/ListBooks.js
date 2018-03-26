@@ -8,12 +8,12 @@ class ListBooks extends Component {
 
     
     render() {
-        const { books, shelf } = this.props
+        const { books, shelf, getNewShelf } = this.props
         
         let filteredBooks = books.filter((book) => book.shelf === shelf)
         
         return(
-            <Book books={filteredBooks} />
+            <Book getNewShelf={getNewShelf} books={filteredBooks} />
         )
     }
 }

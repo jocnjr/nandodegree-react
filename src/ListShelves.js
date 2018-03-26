@@ -11,7 +11,7 @@ class ListShelves extends Component {
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">{shelf.name}</h2>
                   <div className="bookshelf-books">
-                      <ListBooks keys={shelf.id} shelf={shelf.id} books={this.props.books} />
+                      <ListBooks key={shelf.id} getNewShelf={this.props.getNewShelf} shelf={shelf.id} books={this.props.books} />
                   </div>
                 </div>
               </div>
