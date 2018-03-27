@@ -1,22 +1,37 @@
 import React, { Component } from 'react'
 import ListBooks from './ListBooks'
+import propTypes from 'prop-types'
 
 class ListShelves extends Component {
+    static propTypes = {
+        books: propTypes.array.isRequired,
+        shelves: propTypes.array.isRequired,
+        getNewShelf: propTypes.func.isRequired,
+      }
 
     render() {
         return(
+        <div className="list-books">
+            <div className="list-books-title">
+              <h1>MyReads</h1>
+            </div>            
             <div className="list-books-content">
             {this.props.shelves.map((shelf) => (
-              <div>
+              <div key={shelf.id}>
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">{shelf.name}</h2>
                   <div className="bookshelf-books">
-                      <ListBooks key={shelf.id} getNewShelf={this.props.getNewShelf} shelf={shelf.id} books={this.props.books} />
+                      <ListBooks key={shelf.index} getNewShelf={this.props.getNewShelf} shelf={shelf.id} books={this.props.books} />
                   </div>
                 </div>
               </div>
             ))}
             </div>
+
+            <div className="open-search">
+                <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+            </div>
+        </div>
         )
     }
 }

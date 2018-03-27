@@ -5,7 +5,6 @@ class Book extends Component {
 
     render() {
         const { books, getNewShelf } = this.props
-        console.log('sera que estou recebendo as props?', books)
 
         return(
             <ol className="books-grid">
@@ -16,7 +15,7 @@ class Book extends Component {
                         <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`}}></div>
                         <div className="book-shelf-changer">
                         <form>
-                            <select onChange={(e) => getNewShelf(e, book)}>
+                            <select defaultValue={book.shelf} onChange={(e) => getNewShelf(e, book)}>
                                 <option value="none" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
