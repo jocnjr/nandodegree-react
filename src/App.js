@@ -22,14 +22,17 @@ class BooksApp extends Component {
       {
           id: 'read',
           name: 'Read'
-      }],
-    query: ''
+      },
+      {
+        id: 'none',
+        name: 'None'
+      }]
   }
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
-    })
+    })    
   }
 
   getNewShelf = (event, book) => {
@@ -58,9 +61,8 @@ class BooksApp extends Component {
             )}/>
             <Route exact path='/search' render={({ history }) => (
               <Search 
-                getNewShelf={this.getNewShelf} 
-                shelves={this.state.shelves} 
-                books={this.state.books}
+                searchBooks={this.state.books}
+                getNewShelf={this.getNewShelf}
               />
             )}/> 
         </div>

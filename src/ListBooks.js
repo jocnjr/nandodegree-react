@@ -8,7 +8,11 @@ class ListBooks extends Component {
         let filteredBooks = books.filter((book) => book.shelf === shelf)
         
         return(
-            <Book key={books.index} getNewShelf={getNewShelf} books={filteredBooks} />
+            <Book 
+                key={books.index} 
+                getNewShelf={getNewShelf} 
+                books={filteredBooks} 
+            />
         )
     }
 }
