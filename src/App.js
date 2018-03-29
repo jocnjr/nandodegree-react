@@ -22,10 +22,6 @@ class BooksApp extends Component {
       {
           id: 'read',
           name: 'Read'
-      },
-      {
-        id: 'none',
-        name: 'None'
       }]
   }
 
@@ -61,7 +57,7 @@ class BooksApp extends Component {
             )}/>
             <Route exact path='/search' render={({ history }) => (
               <Search 
-                searchBooks={this.state.books}
+                books={this.state.books}
                 getNewShelf={this.getNewShelf}
               />
             )}/> 
