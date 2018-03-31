@@ -12,24 +12,42 @@ class Search extends Component {
   }
 
   updateQuery = (query) => {
+    if (!query) {
+      const searchBooks = []
+      this.setState({ searchBooks })
+    }
+
     this.state.searchTerms.map((term) => {
+      term = term.toLowerCase()
       if (term !== query) {
-        this.setState({ query: query })
+        this.setState({ query: query.toLowerCase() })
       } else {
           BooksAPI.search(query).then((searchBooks) => {
-            this.setState({ searchBooks })
-          })      
+              this.setState({ searchBooks })
+          })
+          // .catch((e) => console.log(e))
       }
     })
   }
 
 
   render() {
-    console.log(this.props.searchBooks)
     let filteredBooks
     if (this.state.query) {
       const match = new RegExp(escapeRegExp(this.state.query), 'i')
       filteredBooks = this.state.searchBooks.filter((book) => match.test(book.title))
+      // let booksWithoutShelf
+      // if (filteredBooks) {
+      //   filteredBooks.map((book) => {
+      //     booksWithoutShelf = this.props.books.filter((b) => b.id !== book.id)
+      //     console.log(booksWithoutShelf, '<<--- filtered?')
+      //     booksWithoutShelf.map((book) => {
+      //       book.shelf = 'none'
+      //       console.log('inside the search api request --> ', book.shelf)
+      //     })
+      //   })
+      //   console.log(booksWithoutShelf, this.props.books, '<====>')
+      //   filteredBooks = Object.assign(booksWithoutShelf, this.props.books)
     } else {
       filteredBooks = this.state.searchBooks
     }
@@ -49,7 +67,8 @@ class Search extends Component {
         </div>
         <div className="search-books-results">
         <Book  
-          getNewShelf={this.props.getNewShelf} 
+          getNewShelf={this.props.getNewShelf}
+          getShelf={this.props.getShelf} 
           books={filteredBooks}
         />
         </div>

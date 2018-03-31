@@ -8,7 +8,6 @@ import Search from './Search'
 class BooksApp extends Component {
 
   state = {
-    showSearchPage: true,
     books: [],
     shelves: [
       {
@@ -22,7 +21,8 @@ class BooksApp extends Component {
       {
           id: 'read',
           name: 'Read'
-      }]
+      }
+    ]
   }
 
   componentDidMount() {
@@ -42,6 +42,18 @@ class BooksApp extends Component {
       })
       .catch((e) => console.log(e))
   }
+
+  getShelf = (bookId) => {
+    BooksAPI.get(bookId)
+    .then((book) => {
+      console.log('getShelf', bookId, book.shelf)
+      //console.log(book, book.shelf, 'thatś not my shelf')
+      // this.setState((state) => ({
+      //   books: state.books.filter((b) => b.id !== book.id).concat([ book ])
+      // }))
+    })
+    .catch((e) => console.log(e))
+  }
   
 
   render() {
@@ -50,15 +62,17 @@ class BooksApp extends Component {
         <div className="app">
             <Route exact path='/' render={() => (
               <ListShelves 
-                getNewShelf={this.getNewShelf} 
-                shelves={this.state.shelves} 
+                getNewShelf={this.getNewShelf}
+                getShelf={this.getShelf}
+                shelves={this.state.shelves}
                 books={this.state.books}
               />
             )}/>
             <Route exact path='/search' render={({ history }) => (
               <Search 
-                books={this.state.books}
                 getNewShelf={this.getNewShelf}
+                getShelf={this.getShelf}
+                books={this.state.books}
               />
             )}/> 
         </div>
