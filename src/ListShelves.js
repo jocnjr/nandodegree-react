@@ -25,8 +25,8 @@ class ListShelves extends Component {
                       <ListBooks
                         key={shelf.index}
                         getNewShelf={this.props.getNewShelf}
-                        getShelf={this.props.getShelf}
-                        shelf={shelf.id} books={this.props.books}
+                        shelf={shelf.id}
+                        books={this.props.books}
                        />
                   </div>
                 </div>

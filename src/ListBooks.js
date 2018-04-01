@@ -3,15 +3,14 @@ import Book from './Book'
 
 class ListBooks extends Component {
     render() {
-        const { books, shelf, getNewShelf, getShelf } = this.props
+        const { books, shelf, getNewShelf } = this.props
         
-        let filteredBooks = books.filter((book) => book.shelf === shelf)
+        let filteredBooks = books.filter((book) => book[Object.keys(book)[0]].shelf === shelf)
         
         return(
             <Book 
-                key={books.index} 
+                key={filteredBooks.index} 
                 getNewShelf={getNewShelf}
-                getShelf={getShelf}
                 books={filteredBooks} 
             />
         )

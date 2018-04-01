@@ -4,21 +4,17 @@ class Book extends Component {
 
 
     render() {
-        const { books, getNewShelf, getShelf } = this.props
-        console.log(books, 'wheres my shelf?')
+        const { books, getNewShelf } = this.props
+
         return(
             <ol className="books-grid">
-            {books.map((book) => (
-                <li  key={book.id}>
+            {books.map((book, i) => (
+                <li key={i}>
                     <div className="book">
                     <div className="book-top">
-                    {book.imageLinks ? (
-                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`}}></div>
-                    ) : (
-                        <div className="book-cover" style={{ width: 128, height: 193}}>Book Cover not available</div>
-                    )}
+                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book[Object.keys(book)[0]].imageLinks.thumbnail})`}}></div>
                         <div className="book-shelf-changer">
-                            <select defaultValue={book.shelf} onChange={(e) => getNewShelf(e, book)}>
+                            <select defaultValue={book[Object.keys(book)[0]].shelf} onChange={(e) => getNewShelf(e, book[Object.keys(book)[0]])}>
                                 <option disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
@@ -27,11 +23,10 @@ class Book extends Component {
                             </select>
                         </div>
                     </div>
-                    <div className="book-title">{book.title}</div>
-                    {book.authors ? 
-                            (book.authors.map((author) => (
-                                <div key={author} className="book-authors">{author}</div>
-                            ))) : ('none')}
+                    <div className="book-title">{book[Object.keys(book)[0]].title}</div>
+                    {book[Object.keys(book)[0]].authors.map((author, i) => (
+                        <div key={i} className="book-authors">{author}</div>
+                    ))}
                     </div>
                 </li>
             ))}
