@@ -46,27 +46,20 @@ class BooksApp extends Component {
   }
 
   getNewShelf = (event, book) => {
+    console.log('getNewShelf', book)
     const shelfForm = event.target.value
     book.shelf = shelfForm
     BooksAPI.update(book, shelfForm)
-    .then(() => {
+    .then((booksIdByShelf) => {
+        console.log('response', booksIdByShelf, book)
+        let bookNewStructure = {}
+        bookNewStructure[book.id] = book
         this.setState((state) => ({
-          booksInShelf: state.booksInShelf.filter((b) => b.id !== book.id).concat([ book ])
+          booksInShelf: state.booksInShelf.filter((b) => b[Object.keys(b)[0]].id !== book.id).concat([ bookNewStructure ])
+
         }))
       })
       .catch((e) => console.log(e))
-  }
-
-  getShelf = (bookId) => {
-    BooksAPI.get(bookId)
-    .then((book) => {
-      console.log('getShelf', bookId, book.shelf)
-      //console.log(book, book.shelf, 'thatś not my shelf')
-      // this.setState((state) => ({
-      //   books: state.books.filter((b) => b.id !== book.id).concat([ book ])
-      // }))
-    })
-    .catch((e) => console.log(e))
   }
 
   updateQuery = (query) => {
@@ -85,6 +78,17 @@ class BooksApp extends Component {
             booksInSearch.map((book) => {
               let newBookObj = {}
               newBookObj[book.id] = book
+              let foreignShelf = 'none'
+              this.state.booksInShelf.map((b) => {
+                for (const bookKey in b) {
+                  if (bookKey === book.id) {
+                    foreignShelf = b.shelf
+                  }
+                }
+              })
+              newBookObj[book.id].shelf = foreignShelf
+              if (!book.imageLinks) newBookObj[book.id].imageLinks = []
+              if (!book.authors) newBookObj[book.id].authors = ['sorry, the author is missing']
               newBooksStructure.push(newBookObj)
             })
 
@@ -97,6 +101,15 @@ class BooksApp extends Component {
       }
     })
   }
+
+  parseShelf = (book) => {
+    if (!book.shelf) book.shelf = 'none'
+  }
+
+  parseImageLinks = (book) => {
+    if (!book.imageLinks) book.imageLinks = []
+  }
+
   
 
   render() {
