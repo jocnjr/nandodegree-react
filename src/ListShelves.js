@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 class ListShelves extends Component {
     static propTypes = {
-        books: propTypes.array.isRequired,
+        booksInShelf: propTypes.array.isRequired,
         shelves: propTypes.array.isRequired,
         getNewShelf: propTypes.func.isRequired,
       }
@@ -26,7 +26,8 @@ class ListShelves extends Component {
                         key={shelf.index}
                         getNewShelf={this.props.getNewShelf}
                         getShelf={this.props.getShelf}
-                        shelf={shelf.id} books={this.props.books}
+                        shelf={shelf.id}
+                        books={this.props.booksInShelf}
                        />
                   </div>
                 </div>
