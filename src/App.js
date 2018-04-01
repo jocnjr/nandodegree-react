@@ -36,6 +36,8 @@ class BooksApp extends Component {
       booksInShelf.map((book) => {
         let newBookObj = {}
         newBookObj[book.id] = book
+        if (!book.imageLinks) newBookObj[book.id].imageLinks = []
+        if (!book.authors) newBookObj[book.id].authors = ['sorry, no author(s)']
         newBooksStructure.push(newBookObj)
       })
 
@@ -46,12 +48,10 @@ class BooksApp extends Component {
   }
 
   getNewShelf = (event, book) => {
-    console.log('getNewShelf', book)
     const shelfForm = event.target.value
     book.shelf = shelfForm
     BooksAPI.update(book, shelfForm)
     .then((booksIdByShelf) => {
-        console.log('response', booksIdByShelf, book)
         let bookNewStructure = {}
         bookNewStructure[book.id] = book
         this.setState((state) => ({
@@ -88,7 +88,7 @@ class BooksApp extends Component {
               })
               newBookObj[book.id].shelf = foreignShelf
               if (!book.imageLinks) newBookObj[book.id].imageLinks = []
-              if (!book.authors) newBookObj[book.id].authors = ['sorry, the author is missing']
+              if (!book.authors) newBookObj[book.id].authors = ['sorry, no author(s)']
               newBooksStructure.push(newBookObj)
             })
 
@@ -101,16 +101,6 @@ class BooksApp extends Component {
       }
     })
   }
-
-  parseShelf = (book) => {
-    if (!book.shelf) book.shelf = 'none'
-  }
-
-  parseImageLinks = (book) => {
-    if (!book.imageLinks) book.imageLinks = []
-  }
-
-  
 
   render() {
     return (
