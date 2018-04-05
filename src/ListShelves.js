@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import ListBooks from './ListBooks'
 import propTypes from 'prop-types'
 import { Link } from 'react-router-dom'
@@ -10,21 +10,23 @@ function ListShelves(props) {
     //     getNewShelf: propTypes.func.isRequired,
     //   }
 
+    const { books, shelves, getNewShelf } = props
+
         return(
         <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-            {props.shelves.map((shelf) => (
+            {shelves.map((shelf) => (
               <div key={shelf.id}>
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">{shelf.name}</h2>
                   <div className="bookshelf-books">
                       <ListBooks
-                        getNewShelf={props.getNewShelf}
+                        getNewShelf={getNewShelf}
                         shelf={shelf.id}
-                        books={props.books}
+                        books={books}
                        />
                   </div>
                 </div>

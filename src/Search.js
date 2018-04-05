@@ -1,17 +1,18 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import escapeRegExp from 'escape-string-regexp'
-import Book from './Book'
-import * as BooksAPI from './BooksAPI'
+import ListBooks from './ListBooks'
 
 function Search(props) {
 
+    const { books, getNewShelf, query, updateQuery } = props
+    
     let filteredBooks
-    if (props.query) {
-      const match = new RegExp(escapeRegExp(props.query), 'i')
-      filteredBooks = props.books.filter((book) => match.test(book.title))
+    if (query) {
+      const match = new RegExp(escapeRegExp(query), 'i')
+      filteredBooks = books.filter((book) => match.test(book.title))
     } else {
-      filteredBooks = props.books
+      filteredBooks = books
     }
 
     return (
@@ -23,13 +24,13 @@ function Search(props) {
               type="text" 
               placeholder="Search by title or author"
               value={props.query}
-              onChange={(event) => props.updateQuery(event.target.value)}
+              onChange={(event) => updateQuery(event.target.value)}
             />
           </div>
         </div>
         <div className="search-books-results">
-        <Book  
-          getNewShelf={props.getNewShelf}
+        <ListBooks  
+          getNewShelf={getNewShelf}
           books={filteredBooks}
         />
         </div>

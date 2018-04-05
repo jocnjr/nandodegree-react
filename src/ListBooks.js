@@ -1,10 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Book from './Book'
 
 function ListBooks(props) {
     const { books, shelf, getNewShelf } = props
     
-    let filteredBooks = books.filter((book) => book.shelf === shelf)
+    let filteredBooks
+
+    if (shelf) {
+        filteredBooks = books.filter((book) => book.shelf === shelf)
+    } else {
+        filteredBooks = books
+    }
     
     return(
         <ol className="books-grid">
