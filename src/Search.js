@@ -2,10 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import escapeRegExp from 'escape-string-regexp'
 import ListBooks from './ListBooks'
+import propTypes from 'prop-types'
 
 function Search(props) {
 
-    const { books, getNewShelf, query, updateQuery } = props
+    const { books, getNewShelf, query, updateQuery, searchTerms } = props
     
     let filteredBooks
     if (query) {
@@ -16,8 +17,8 @@ function Search(props) {
     }
 
     return (
-        <div className="search-books">
-        <div className="search-books-bar">
+      <div className="search-books">
+      <div className="search-books-bar">
           <Link className="close-search" to='/'>Close</Link>
           <div className="search-books-input-wrapper">
             <input 
@@ -26,16 +27,27 @@ function Search(props) {
               value={props.query}
               onChange={(event) => updateQuery(event.target.value)}
             />
-          </div>
         </div>
-        <div className="search-books-results">
-        <ListBooks  
-          getNewShelf={getNewShelf}
-          books={filteredBooks}
-        />
+      </div>
+      <div className="search-books-results">
+        <div className="search-books-terms">Search Terms Available</div>
+          {searchTerms.map((term, i) => (
+            <div key={i} className="search-term">{term}</div>
+          ))}
+          <ListBooks  
+            getNewShelf={getNewShelf}
+            books={filteredBooks}
+          />
         </div>
       </div>
     )
+}
+
+Search.propTypes = {
+  books: propTypes.array.isRequired,
+  getNewShelf: propTypes.func.isRequired,
+  updateQuery: propTypes.func.isRequired,
+  searchTerms: propTypes.array.isRequired
 }
 
 export default Search

@@ -1,7 +1,8 @@
 import React from 'react'
-// Convert to stateless
+import propTypes from 'prop-types'
 
 function Book(props) {
+  
     const { book, getNewShelf } = props
     
     return(
@@ -25,6 +26,11 @@ function Book(props) {
         </div>
     )
 
+}
+
+Book.propTypes = {
+  book: propTypes.object.isRequired,
+  getNewShelf: propTypes.func.isRequired
 }
 
 export default Book

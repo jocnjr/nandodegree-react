@@ -36,12 +36,9 @@ class BooksApp extends Component {
 
   componentDidMount() {
     BooksAPI.getAll().then((booksInShelf) => {
-      // const newBookObj = {}
       booksInShelf.forEach((book, i) => {
-        // newBookObj[book.id] = book
         this.parseData(booksInShelf[i])
       })
-      // console.log(booksInShelf)
       this.setState({ booksInShelf })
     })
   }
@@ -68,20 +65,20 @@ class BooksApp extends Component {
       if (term !== query) {
         this.setState({ query: query.toLowerCase() })
       } else {
-          BooksAPI.search(query).then((booksInSearch) => {
-            booksInSearch.forEach((book, i) => {
-              let foreignShelf = 'none'
-              this.state.booksInShelf.forEach((b) => {
-                  if (b.id === book.id) {
-                    foreignShelf = b.shelf
-                  }
-              })
-              booksInSearch[i].shelf = foreignShelf
-              this.parseData(booksInSearch[i])
+        BooksAPI.search(query).then((booksInSearch) => {
+          booksInSearch.forEach((book, i) => {
+            let foreignShelf = 'none'
+            this.state.booksInShelf.forEach((b) => {
+                if (b.id === book.id) {
+                  foreignShelf = b.shelf
+                }
             })
-            this.setState({ booksInSearch })
+            booksInSearch[i].shelf = foreignShelf
+            this.parseData(booksInSearch[i])
           })
-          .catch((e) => console.log(e))
+          this.setState({ booksInSearch })
+        })
+        .catch((e) => console.log(e))
       }
     })
   }
@@ -100,10 +97,12 @@ class BooksApp extends Component {
                 getNewShelf={this.getNewShelf}
                 shelves={this.shelves}
                 books={this.state.booksInShelf}
+                updateQuery={this.updateQuery}
               />
             )}/>
             <Route exact path='/search' render={({ history }) => (
-              <Search 
+              <Search
+                searchTerms={this.searchTerms}
                 getNewShelf={this.getNewShelf}
                 books={this.state.booksInSearch}
                 updateQuery={this.updateQuery}
