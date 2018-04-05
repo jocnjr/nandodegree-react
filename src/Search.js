@@ -1,42 +1,53 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import escapeRegExp from 'escape-string-regexp'
-import Book from './Book'
-import * as BooksAPI from './BooksAPI'
+import ListBooks from './ListBooks'
+import propTypes from 'prop-types'
 
-class Search extends Component {
+function Search(props) {
 
-  render() {
+    const { books, getNewShelf, query, updateQuery, searchTerms } = props
+    
     let filteredBooks
-    if (this.props.query) {
-      const match = new RegExp(escapeRegExp(this.props.query), 'i')
-      filteredBooks = this.props.books.filter((book) => match.test(book.title))
+    if (query) {
+      const match = new RegExp(escapeRegExp(query), 'i')
+      filteredBooks = books.filter((book) => match.test(book.title))
     } else {
-      filteredBooks = this.props.books
+      filteredBooks = books
     }
 
     return (
-        <div className="search-books">
-        <div className="search-books-bar">
+      <div className="search-books">
+      <div className="search-books-bar">
           <Link className="close-search" to='/'>Close</Link>
           <div className="search-books-input-wrapper">
             <input 
               type="text" 
               placeholder="Search by title or author"
-              value={this.props.query}
-              onChange={(event) => this.props.updateQuery(event.target.value)}
+              value={props.query}
+              onChange={(event) => updateQuery(event.target.value)}
             />
-          </div>
         </div>
-        <div className="search-books-results">
-        <Book  
-          getNewShelf={this.props.getNewShelf}
-          books={filteredBooks}
-        />
+      </div>
+      <div className="search-books-results">
+        <div className="search-books-terms">Search Terms Available</div>
+          {searchTerms.map((term, i) => (
+            <div key={i} className="search-term">{term}</div>
+          ))}
+          <ListBooks  
+            getNewShelf={getNewShelf}
+            books={filteredBooks}
+          />
         </div>
       </div>
     )
-  }
+}
+
+Search.propTypes = {
+  books: propTypes.array.isRequired,
+  getNewShelf: propTypes.func.isRequired,
+  updateQuery: propTypes.func.isRequired,
+  searchTerms: propTypes.array.isRequired
 }
 
 export default Search

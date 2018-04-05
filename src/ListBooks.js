@@ -1,20 +1,37 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Book from './Book'
+import propTypes from 'prop-types'
 
-class ListBooks extends Component {
-    render() {
-        const { books, shelf, getNewShelf } = this.props
-        
-        let filteredBooks = books.filter((book) => book[Object.keys(book)[0]].shelf === shelf)
-        
-        return(
+function ListBooks(props) {
+
+  const { books, shelf, getNewShelf } = props
+  
+  let filteredBooks
+
+  if (shelf) {
+      filteredBooks = books.filter((book) => book.shelf === shelf)
+  } else {
+      filteredBooks = books
+  }
+  
+  return(
+    <ol className="books-grid">
+    {filteredBooks.map((book, i) => (
+        <li key={i}>
             <Book 
-                key={filteredBooks.index} 
                 getNewShelf={getNewShelf}
-                books={filteredBooks} 
+                book={book}
             />
-        )
-    }
+        </li>
+    ))}
+    </ol>
+  )
+}
+
+ListBooks.propTypes = {
+  books: propTypes.array.isRequired,
+  shelf: propTypes.string,
+  getNewShelf: propTypes.func.isRequired
 }
 
 export default ListBooks
