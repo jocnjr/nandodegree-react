@@ -6,7 +6,7 @@ import propTypes from 'prop-types'
 
 function Search(props) {
 
-    const { books, getNewShelf, query, updateQuery, searchTerms } = props
+    const { books, getNewShelf, query, updateQuery, searchTerms, queryByTerm } = props
     
     let filteredBooks
     if (query) {
@@ -23,8 +23,8 @@ function Search(props) {
           <div className="search-books-input-wrapper">
             <input 
               type="text" 
-              placeholder="Search by title or author"
-              value={props.query}
+              placeholder="Type a Term..."
+              value={query}
               onChange={(event) => updateQuery(event.target.value)}
             />
         </div>
@@ -32,9 +32,9 @@ function Search(props) {
       <div className="search-books-results">
         <div className="search-books-terms">Search Terms Available</div>
           {searchTerms.map((term, i) => (
-            <div key={i} className="search-term">{term}</div>
+            <p key={i}><a onClick={() => queryByTerm(term)}>{term}</a></p>
           ))}
-          <ListBooks  
+          <ListBooks    
             getNewShelf={getNewShelf}
             books={filteredBooks}
           />
@@ -47,6 +47,7 @@ Search.propTypes = {
   books: propTypes.array.isRequired,
   getNewShelf: propTypes.func.isRequired,
   updateQuery: propTypes.func.isRequired,
+  queryByTerm: propTypes.func.isRequired,
   searchTerms: propTypes.array.isRequired
 }
 
