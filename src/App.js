@@ -56,7 +56,7 @@ class BooksApp extends Component {
   }
 
   updateQuery = (query) => {
-    if (!query) {
+    if (query === 'clear query' || !query) {
       this.setState({ booksInSearch: [] })
     }
 
@@ -82,6 +82,24 @@ class BooksApp extends Component {
       }
     })
   }
+  
+  queryByTerm = (term) => {
+    term = term.toLowerCase()
+    BooksAPI.search(term).then((booksInSearch) => {
+      booksInSearch.forEach((book, i) => {
+        let foreignShelf = 'none'
+        this.state.booksInShelf.forEach((b) => {
+            if (b.id === book.id) {
+              foreignShelf = b.shelf
+            }
+          })
+          booksInSearch[i].shelf = foreignShelf
+          this.parseData(booksInSearch[i])
+      })
+      this.setState({ booksInSearch })
+    })
+    .catch((e) => console.log(e))
+  }
 
   parseData = (book) => {
     if (!book.hasOwnProperty('imageLinks')) book.imageLinks = []
@@ -106,6 +124,7 @@ class BooksApp extends Component {
                 getNewShelf={this.getNewShelf}
                 books={this.state.booksInSearch}
                 updateQuery={this.updateQuery}
+                queryByTerm={this.queryByTerm}
               />
             )}/> 
         </div>

@@ -30,7 +30,7 @@ function ListShelves(props) {
       </div>
 
       <div className="open-search">
-        <Link to='/search' onClick={updateQuery}>Add a book</Link>
+        <Link to='/search' onClick={() => updateQuery('clear query')}>Add a book</Link>
       </div>
     </div>
   )
