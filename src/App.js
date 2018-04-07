@@ -43,6 +43,12 @@ class BooksApp extends Component {
     })
   }
 
+  /**
+  * @description updates the shelf of a given book via
+  *  API and set the new bookInShelf array
+  * @param {object} event - the DOM event element
+  * @param {object} book - the book object to be updated
+  */
   getNewShelf = (event, book) => {
     const shelfForm = event.target.value
     book.shelf = shelfForm
@@ -55,9 +61,15 @@ class BooksApp extends Component {
       .catch((e) => console.log(e))
   }
 
+  /**
+  * @description search return of a given term
+  * @param {string} query - known term to search with
+  */
   updateQuery = (query) => {
-    if (query === 'clear query' || !query) {
+    if (query === 'clear query') {
       this.setState({ booksInSearch: [] })
+    } else if (!query) {
+      this.setState({ booksInSearch: ['book not found!']})
     }
 
     this.searchTerms.forEach((term) => {
@@ -84,6 +96,10 @@ class BooksApp extends Component {
     })
   }
   
+  /**
+  * @description search return of a given term from the list
+  * @param {string} term - known term to search by list
+  */
   queryByTerm = (term) => {
     term = term.toLowerCase()
     BooksAPI.search(term).then((booksInSearch) => {
@@ -103,6 +119,11 @@ class BooksApp extends Component {
     .catch((e) => console.log(e))
   }
 
+  /**
+  * @description helper function to normalize the data
+  * @param {object} book - the book obj to be parsed
+  * @returns {object} the parsed book
+  */
   parseData = (book) => {
     if (!book.hasOwnProperty('imageLinks')) {
       book.imageLinks = {}
