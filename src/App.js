@@ -41,6 +41,9 @@ class BooksApp extends Component {
       })
       this.setState({ booksInShelf })
     })
+    .catch((e) => {
+      throw new Error(e)
+    })
   }
 
   /**
@@ -58,7 +61,9 @@ class BooksApp extends Component {
           booksInShelf: state.booksInShelf.filter((b) => b.id !== book.id).concat([ book ])
         }))
       })
-      .catch((e) => console.log(e))
+      .catch((e) => {
+        throw new Error(e)
+      })
   }
 
   /**
@@ -66,10 +71,8 @@ class BooksApp extends Component {
   * @param {string} query - known term to search with
   */
   updateQuery = (query) => {
-    if (query === 'clear query') {
+    if (!query || query === 'clear query') {
       this.setState({ booksInSearch: [] })
-    } else if (!query) {
-      this.setState({ booksInSearch: ['book not found!']})
     }
 
     this.searchTerms.forEach((term) => {
@@ -91,7 +94,7 @@ class BooksApp extends Component {
           })
           this.setState({ booksInSearch })
         })
-        .catch((e) => console.log(e))
+        .catch((e) => e)
       }
     })
   }
@@ -116,7 +119,9 @@ class BooksApp extends Component {
       })
       this.setState({ booksInSearch })
     })
-    .catch((e) => console.log(e))
+    .catch((e) => {
+      throw new Error(e)
+    })
   }
 
   /**
