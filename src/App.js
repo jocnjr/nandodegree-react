@@ -74,29 +74,22 @@ class BooksApp extends Component {
     if (!query || query === 'clear query') {
       this.setState({ booksInSearch: [] })
     }
-
-    this.searchTerms.forEach((term) => {
-      term = term.toLowerCase()
-      if (term !== query) {
-        this.setState({ query: query.toLowerCase() })
-      } else {
-        BooksAPI.search(query).then((booksInSearch) => {
-          this.setState({ booksInSearch: [] })
-          booksInSearch.forEach((book, i) => {
-            let foreignShelf = 'none'
-            this.state.booksInShelf.forEach((b) => {
-                if (b.id === book.id) {
-                  foreignShelf = b.shelf
-                }
-            })
-            booksInSearch[i].shelf = foreignShelf
-            this.parseData(booksInSearch[i])
-          })
-          this.setState({ booksInSearch })
+    query = query.toLowerCase()
+    BooksAPI.search(query).then((booksInSearch) => {
+      this.setState({ booksInSearch: [] })
+      booksInSearch.forEach((book, i) => {
+        let foreignShelf = 'none'
+        this.state.booksInShelf.forEach((b) => {
+            if (b.id === book.id) {
+              foreignShelf = b.shelf
+            }
         })
-        .catch((e) => e)
-      }
+        booksInSearch[i].shelf = foreignShelf
+        this.parseData(booksInSearch[i])
+      })
+      this.setState({ booksInSearch })
     })
+    .catch((e) => e)
   }
   
   /**
